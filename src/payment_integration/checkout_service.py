@@ -1,13 +1,14 @@
-from typing import Any
-
+from .payment_authorizer import PaymentAuthorizer
 from .payment_provider_factory import PaymentProviderFactory
+from .refund_processor import RefundProcessor
+from .webhook_verifier import WebhookVerifier
 
 
 class CheckoutService:
     def __init__(self, factory: PaymentProviderFactory):
-        self.authorizer: Any = factory.create_authorizer()
-        self.refunds: Any = factory.create_refund_processor()
-        self.webhooks: Any = factory.create_webhook_verifier()
+        self.authorizer: PaymentAuthorizer = factory.create_authorizer()
+        self.refunds: RefundProcessor = factory.create_refund_processor()
+        self.webhooks: WebhookVerifier = factory.create_webhook_verifier()
 
     def authorize_payment(self, amount: float) -> str:
         return self.authorizer.authorize(amount)
